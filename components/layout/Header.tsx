@@ -35,12 +35,6 @@ export function Header() {
               >
                 Incidents
               </Link>
-              <Link
-                href="/verify"
-                className="text-russett-400 hover:text-russett transition"
-              >
-                Verify
-              </Link>
             </nav>
           </div>
           <div className="flex items-center space-x-4">

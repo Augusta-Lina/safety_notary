@@ -1,8 +1,7 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { useAccount } from "wagmi";
-import { useIncident, useVerifyIncident } from "@/lib/eas/hooks";
+import { useIncident } from "@/lib/eas/hooks";
 import { SeverityBadge } from "@/components/ui/SeverityBadge";
 import { EASSCAN_ATTESTATION_URL } from "@/lib/config/eas";
 
@@ -11,9 +10,7 @@ export const dynamic = "force-dynamic";
 export default function IncidentDetailPage() {
   const params = useParams();
   const uid = params.uid as string;
-  const { isConnected } = useAccount();
   const { data: incident, isLoading } = useIncident(uid);
-  const { mutate: verify, isPending: isVerifying } = useVerifyIncident();
 
   if (isLoading) {
     return (
@@ -42,16 +39,6 @@ export default function IncidentDetailPage() {
     });
   }
 
-  function handleVerify() {
-    if (!isConnected) {
-      alert("Please connect your wallet to verify this incident.");
-      return;
-    }
-    if (confirm("Are you sure you want to verify this incident?")) {
-      verify(uid);
-    }
-  }
-
   return (
     <div className="max-w-4xl mx-auto px-4 py-12">
       <div className="mb-6">
@@ -74,25 +61,8 @@ export default function IncidentDetailPage() {
                 {incident.incidentType}
               </span>
               <SeverityBadge level={incident.severityLevel} />
-              {incident.verified && (
-                <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-juniper-200 text-juniper-700">
-                  ✓ Verified
-                </span>
-              )}
-              <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-napa-100 text-russett">
-                {incident.mitigationStatus}
-              </span>
             </div>
           </div>
-          {!incident.verified && (
-            <button
-              onClick={handleVerify}
-              disabled={isVerifying || !isConnected}
-              className="px-4 py-2 bg-geraldine text-white rounded-md hover:bg-geraldine-700 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {isVerifying ? "Verifying..." : "Verify Incident"}
-            </button>
-          )}
         </div>
 
         <div className="space-y-6">

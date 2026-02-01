@@ -45,9 +45,7 @@ export function IncidentForm() {
 
       createAttestation(incidentData, {
         onSuccess: (uid) => {
-          setTimeout(() => {
-            router.push(`/incidents/${uid}`);
-          }, 2000);
+          router.push(`/submit/success?uid=${uid}`);
         },
       });
     } catch (error) {
@@ -58,17 +56,26 @@ export function IncidentForm() {
 
   if (isSuccess && txHash) {
     return (
-      <div className="max-w-2xl mx-auto p-8 bg-juniper-50 border border-juniper-200 rounded-lg">
-        <h2 className="text-2xl font-bold text-juniper-700 mb-4">
-          Incident Submitted Successfully!
+      <div className="max-w-2xl mx-auto p-8 bg-juniper-50 border border-juniper-200 rounded-lg text-center">
+        <div className="mx-auto w-12 h-12 bg-juniper-100 rounded-full flex items-center justify-center mb-4">
+          <svg
+            className="w-6 h-6 text-juniper animate-pulse"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M5 13l4 4L19 7"
+            />
+          </svg>
+        </div>
+        <h2 className="text-2xl font-bold text-juniper-700 mb-2">
+          Success!
         </h2>
-        <p className="text-juniper-600 mb-4">
-          Your incident has been recorded on-chain with attestation UID:
-        </p>
-        <code className="block bg-white p-3 rounded text-sm mb-4 break-all">
-          {txHash}
-        </code>
-        <p className="text-juniper-600">Redirecting to incident details...</p>
+        <p className="text-juniper-600">Redirecting...</p>
       </div>
     );
   }

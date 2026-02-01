@@ -26,11 +26,6 @@ export function IncidentCard({ incident }: IncidentCardProps) {
                 {incident.incidentType}
               </span>
               <SeverityBadge level={incident.severityLevel} />
-              {incident.verified && (
-                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-juniper-200 text-juniper-700">
-                  Verified
-                </span>
-              )}
             </div>
             <h3 className="text-lg font-semibold text-russett mb-1">
               {incident.modelIdentifier}
@@ -40,11 +35,8 @@ export function IncidentCard({ incident }: IncidentCardProps) {
             </p>
           </div>
         </div>
-        <div className="flex items-center justify-between text-xs text-russett-400">
+        <div className="text-xs text-russett-400">
           <span>Reported {formatDate(incident.timestamp)}</span>
-          <span className="inline-flex items-center px-2 py-1 rounded bg-napa-100 text-russett">
-            {incident.mitigationStatus}
-          </span>
         </div>
       </div>
     </Link>

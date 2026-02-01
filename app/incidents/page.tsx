@@ -12,7 +12,6 @@ export default function IncidentsPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [filterType, setFilterType] = useState<IncidentType | "all">("all");
   const [filterSeverity, setFilterSeverity] = useState<SeverityLevel | "all">("all");
-  const [filterVerified, setFilterVerified] = useState<"all" | "verified" | "unverified">("all");
   const [sortBy, setSortBy] = useState<"newest" | "oldest" | "severity">("newest");
 
   const filteredIncidents = useMemo(() => {
@@ -36,12 +35,6 @@ export default function IncidentsPage() {
       filtered = filtered.filter((i) => i.severityLevel === filterSeverity);
     }
 
-    if (filterVerified === "verified") {
-      filtered = filtered.filter((i) => i.verified);
-    } else if (filterVerified === "unverified") {
-      filtered = filtered.filter((i) => !i.verified);
-    }
-
     if (sortBy === "newest") {
       filtered.sort((a, b) => Number(b.timestamp - a.timestamp));
     } else if (sortBy === "oldest") {
@@ -51,7 +44,7 @@ export default function IncidentsPage() {
     }
 
     return filtered;
-  }, [incidents, searchTerm, filterType, filterSeverity, filterVerified, sortBy]);
+  }, [incidents, searchTerm, filterType, filterSeverity, sortBy]);
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-12">
@@ -60,7 +53,7 @@ export default function IncidentsPage() {
       </h1>
 
       <div className="bg-white p-6 rounded-lg shadow mb-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
             <label className="block text-sm font-medium text-russett mb-2">
               Search
@@ -114,20 +107,6 @@ export default function IncidentsPage() {
             </select>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-russett mb-2">
-              Status
-            </label>
-            <select
-              value={filterVerified}
-              onChange={(e) => setFilterVerified(e.target.value as "all" | "verified" | "unverified")}
-              className="w-full px-3 py-2 border border-napa rounded-md focus:outline-none focus:ring-2 focus:ring-juniper"
-            >
-              <option value="all">All Status</option>
-              <option value="verified">Verified</option>
-              <option value="unverified">Unverified</option>
-            </select>
-          </div>
         </div>
 
         <div className="mt-4 flex justify-between items-center">
